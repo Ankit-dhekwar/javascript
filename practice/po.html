@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Input Validation</title>
+  <style>
+    .error {
+      border: 2px solid red;
+    }
+  </style>
+</head>
+<body>
+  <label for="min">Min (minimum):</label>
+  <input type="number" id="min" required><br><br>
+  
+  <label for="max">Max (maximum):</label>
+  <input type="number" id="max" required><br><br>
+  
+  <label for="mul">Mul (Multiplier):</label>
+  <input type="number" id="mul" required><br><br>
+  
+  <button onclick="validate()">Validate</button>
+  
+  <script>
+    function validate() {
+      var minInput = document.getElementById("min");
+      var maxInput = document.getElementById("max");
+      var mulInput = document.getElementById("mul");
+      
+      var min = parseInt(minInput.value);
+      var max = parseInt(maxInput.value);
+      var mul = parseInt(mulInput.value);
+      
+      // Reset border colors
+      minInput.style.border = "1px solid black";
+      maxInput.style.border = "1px solid black";
+      mulInput.style.border = "1px solid black";
+      
+      var isValid = true;
+      
+      // Mandatory condition: Mul should be a factor of Min & Max
+      if ((min % mul !== 0 && max % mul === 0) || (min % mul === 0 && max % mul !== 0)) {
+        if (min % mul !== 0) {
+          minInput.style.border = "2px solid red";
+        }
+        if (max % mul !== 0) {
+          maxInput.style.border = "2px solid red";
+        }
+        mulInput.style.border = "2px solid red";
+        
+        isValid = false;
+      } else if (min % mul !== 0 && max % mul !== 0) {
+        mulInput.style.border = "2px solid red";
+        isValid = false;
+      }
+      
+      // Secondary conditions
+      if (min >= max) {
+        minInput.style.border = "2px solid red";
+        isValid = false;
+      }
+      
+      if (mul >= max) {
+        mulInput.style.border = "2px solid red";
+        isValid = false;
+      }
+      
+      if (mul > min) {
+        mulInput.style.border = "2px solid red";
+        isValid = false;
+      }
+      
+      if (isValid) {
+        alert("Validation successful!");
+      }
+    }
+  </script>
+</body>
+</html>
